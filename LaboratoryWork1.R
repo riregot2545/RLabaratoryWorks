@@ -44,7 +44,7 @@ meanValue<-function(values){
 
 #Дима	напівсуму «крайніх» спостережень;
 halfSumEdges<-function(values){
-  #TODO
+  return(sum(range(values))/2)
 }
 
 #Саша	середнє квадратичне відхилення від середнього; 
@@ -60,7 +60,8 @@ avgMod<-function(values){
 
 #Дима	розмах;
 dataRange<-function(values){
-  #Todo
+  numPair<-range(values)
+  return(numPair[2]-numPair[1])
 }
 
 #Саша	дисперсію; 
