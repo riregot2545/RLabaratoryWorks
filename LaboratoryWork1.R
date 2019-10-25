@@ -77,7 +77,11 @@ recurentAvg<-function(values){
 
 #Дима рекурентні співвідношення медіани;
 recurentMediana<-function(values){
-  #TODO
+  rMedValue<-values[1]
+  for (k in 2:length(values)) {
+    rMedValue<-rMedValue + (1/k)*(sign(values[k]-rMedValue))
+  }
+  return(rMedValue)
 }
 
 #Саша	максимальне та мінімальне значення;
@@ -93,7 +97,11 @@ normCenter<-function(values){
 
 #Дима	кодування на гіперкулю;
 codingSphere<-function(values){
-  #TODO
+  maxMinValues<-maxMin(values)
+  return(sapply(values, cdShapeFunc, maxValue=maxMinValues[1],minValue=maxMinValues[2]))
+}
+cdShapeFunc<-function(x,minValue,maxValue){
+  return((x-minValue)/(maxValue-minValue))
 }
 
 #Саша	кодування на гіперкуб.
