@@ -107,8 +107,11 @@ codingSphere<-function(values){
 
 #Саша	кодування на гіперкуб.
 codingCube<-function(values){
-  values <- unlist(values)
-  
+  maxMinValues<-maxMin(values)
+  return(sapply(values, cdShapeFunc, maxValue=maxMinValues[1],minValue=maxMinValues[2]))
+}
+cdShapeFunc<-function(x,minValue,maxValue){
+  return((2*(x-minValue)/(maxValue-minValue))-1)
 }
 
 main<-function(){
@@ -119,7 +122,8 @@ main<-function(){
     s <- avgSqr(wineSet[i])
     d <- dispersion(wineSet[i])
     m <- maxMin(wineSet[i])
-    print(m)
+    c <- codingCube(wineSet[i])
+    print(c)
   }
   
   
