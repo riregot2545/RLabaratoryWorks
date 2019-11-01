@@ -1,6 +1,6 @@
 wineSet<-0
 init<-function(){
-  wineSet<-read.csv("C:/Users/Admin/Downloads/wine.data")
+  wineSet<-read.csv("D:/Programming/IAD/wine.data")
   names(wineSet)<- c("Type","Alcoholh","Malic_acid","Ash","Alcalinity_of_ash","Magnesium","Total_phenols","Flavanoids","Nonflavanoid_phenols","Proanthocyanins","Color_intensity","Hue","OD280_OD315_of_diluted_wines","Proline")
 }
 
@@ -32,8 +32,8 @@ showData<-function(dataSet){
 
 #Саша	середнє значення («маточікування»); 
 avgValue<-function(values){
-  #TODO
-  return(mean(values))
+  
+  return(sum(values)/nrow(values))
 }
 
 #Миша	медіану; 
@@ -49,8 +49,8 @@ halfSumEdges<-function(values){
 
 #Саша	середнє квадратичне відхилення від середнього; 
 avgSqr<-function(values){
-  #TODO
-  return(sd(values))
+  m <- avgValue(values)
+  return(sqrt(avgValue((m-values)^2)))
 }
 
 #Миша	середній модуль відхилень; 
@@ -65,8 +65,8 @@ dataRange<-function(values){
 
 #Саша	дисперсію; 
 dispersion<-function(values){
-  #TODO
-  return(var(values))
+  m <- avgValue(values)
+  return(avgValue((m-values)^2))
 }
 
 #Миша	рекурентні співвідношення середнього значення;
@@ -81,8 +81,18 @@ recurentMediana<-function(values){
 
 #Саша	максимальне та мінімальне значення;
 maxMin<-function(values){
-  #TODO
-  return(c(max(values),min(values)))
+  values1 <- unlist(values)
+  max <- 0
+  min <- 99999999
+  for (j in 1:length(values1)){
+    if(values1[j] > max){
+      max <- values1[j]
+    }
+    if(values1[j] < min){
+      min <- values1[j]
+    }
+  }
+  return(c(max,min))
 }
 
 #Миша	провести нормування та центрування; 
@@ -97,14 +107,23 @@ codingSphere<-function(values){
 
 #Саша	кодування на гіперкуб.
 codingCube<-function(values){
-  #TODO
+  values <- unlist(values)
+  
 }
 
 main<-function(){
   init()
   showData(wineSet)
-  for (i in 2:ncol(wineSet)) {
-    
+  for (i in 1:ncol(wineSet)) {
+    a <- avgValue(wineSet[i])
+    s <- avgSqr(wineSet[i])
+    d <- dispersion(wineSet[i])
+    m <- maxMin(wineSet[i])
+    print(m)
   }
+  
+  
+  
+  
 }
 
