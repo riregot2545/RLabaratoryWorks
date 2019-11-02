@@ -1,6 +1,6 @@
 wineSet<-0
 init<-function(){
-  wineSet<<-read.csv("C:/Users/HORIZON/Downloads/wine.data")
+  wineSet<<-read.csv("wine.data")
   names(wineSet)<<- c("Type","Alcoholh","Malic_acid","Ash","Alcalinity_of_ash","Magnesium","Total_phenols","Flavanoids","Nonflavanoid_phenols","Proanthocyanins","Color_intensity","Hue","OD280_OD315_of_diluted_wines","Proline")
 }
 
@@ -8,9 +8,7 @@ showData<-function(dataSet){
   print("Atributes:")
   print(names(dataSet))
   print("Ranges:")
-  summary(dataSet)
-  #boxplot(x = as.list(dataSet))
-  print("Boxplots:")
+  print(summary(dataSet[-1]))
   for(i in 2:ncol(dataSet)){
     boxplot(x = dataSet[][i])
   }
@@ -90,9 +88,11 @@ recurentAvg<-function(x){
 
 #Дима рекурентні співвідношення медіани;
 recurentMediana<-function(values){
-  rMedValue<-values[1]
+  rMedValue<-vector(length = length(values))
+  values<-unlist(values,use.names = F)
+  rMedValue[1]<-values[1]
   for (k in 2:length(values)) {
-    rMedValue<-rMedValue + (1/k)*(sign(values[k]-rMedValue))
+    rMedValue[k]<-rMedValue[k-1] + (1/k)*(sign(values[k]-rMedValue[k-1]))
   }
   return(rMedValue)
 }
@@ -143,7 +143,46 @@ main<-function(){
   init()
   showData(wineSet)
   for (i in 2:ncol(wineSet)) {
-
+    print(paste("-------",names(wineSet[i]),"-----------"))
+    print(paste("Среднее:",avgValue(wineSet[i])))
+    print(paste("Медиана:",meanValue(wineSet[i])))
+    print(paste("Полусумма крайних наблюдений:",halfSumEdges(wineSet[i])))
+    print(paste("Среднеквадратическое отклоненние:",avgSqr(wineSet[i])))
+    print(paste("Средний модуль отклонений:",avgMod(wineSet[i])))
+    print(paste("Размах:",dataRange(wineSet[i])))
+    print(paste("Дисперсия:",dispersion(wineSet[i])))
+    print("Рекур. среднее:")
+    tmp<-recurentAvg(wineSet[i]);
+    for(j in 1:3){
+      print(tmp[length(tmp)-j])
+    }
+    print("Рекур. медиана:")
+    tmp<-recurentMediana(wineSet[i]);
+    for(j in 1:3){
+      print(tmp[length(tmp)-j])
+    }
+    print("Максимальное минимальное значение:")
+    print(maxMin(wineSet[i]))
+    
+    print("Нормирование и центрирование:")
+    tmp<-normCenter(wineSet[i]);
+    tmp<-unlist(tmp,use.names = F)
+    for(j in 1:5){
+      print(tmp[length(tmp)-j])
+    }
+    print("Кодирование на гипершар:")
+    tmp<-codingSphere(wineSet[i]);
+    tmp<-unlist(tmp,use.names = F)
+    for(j in 1:5){
+      print(tmp[length(tmp)-j])
+    }
+    
+    print("Кодирование на гиперкуб:")
+    tmp<-codingCube(wineSet[i]);
+    tmp<-unlist(tmp,use.names = F)
+    for(j in 1:5){
+      print(tmp[length(tmp)-j])
+    }
   }
 }
 
