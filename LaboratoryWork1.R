@@ -1,7 +1,7 @@
 wineSet<-0
 init<-function(){
-  wineSet<-read.csv("D:/Programming/IAD/wine.data")
-  names(wineSet)<- c("Type","Alcoholh","Malic_acid","Ash","Alcalinity_of_ash","Magnesium","Total_phenols","Flavanoids","Nonflavanoid_phenols","Proanthocyanins","Color_intensity","Hue","OD280_OD315_of_diluted_wines","Proline")
+  wineSet<<-read.csv("C:/Users/HORIZON/Downloads/wine.data")
+  names(wineSet)<<- c("Type","Alcoholh","Malic_acid","Ash","Alcalinity_of_ash","Magnesium","Total_phenols","Flavanoids","Nonflavanoid_phenols","Proanthocyanins","Color_intensity","Hue","OD280_OD315_of_diluted_wines","Proline")
 }
 
 showData<-function(dataSet){
@@ -81,7 +81,7 @@ recurentMediana<-function(values){
 
 #Саша	максимальне та мінімальне значення;
 maxMin<-function(values){
-  values1 <- unlist(values)
+  values1 <- unlist(values, use.names = FALSE)
   max <- 0
   min <- 99999999
   for (j in 1:length(values1)){
@@ -110,24 +110,15 @@ codingCube<-function(values){
   maxMinValues<-maxMin(values)
   return(sapply(values, cdShapeFunc, maxValue=maxMinValues[1],minValue=maxMinValues[2]))
 }
-cdShapeFunc<-function(x,minValue,maxValue){
+cdShapeFunc2<-function(x,minValue,maxValue){
   return((2*(x-minValue)/(maxValue-minValue))-1)
 }
 
 main<-function(){
   init()
   showData(wineSet)
-  for (i in 1:ncol(wineSet)) {
-    a <- avgValue(wineSet[i])
-    s <- avgSqr(wineSet[i])
-    d <- dispersion(wineSet[i])
-    m <- maxMin(wineSet[i])
-    c <- codingCube(wineSet[i])
-    print(c)
+  for (i in 2:ncol(wineSet)) {
+
   }
-  
-  
-  
-  
 }
 
