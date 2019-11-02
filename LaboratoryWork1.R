@@ -37,9 +37,14 @@ avgValue<-function(values){
 }
 
 #Миша	медіану; 
-meanValue<-function(values){
-  #TODO
-  return(median(values))
+meanValue<-function(x){
+  x <- sort(unlist(x, use.names = FALSE))
+  if(length(x) %% 2 == 0) {
+    m <- (x[length(x)/2] + x[length(x)/2 + 1])/2
+  }else {
+    m <- x[(length(x)+1)/2]
+  }
+  return(m)
 }
 
 #Дима	напівсуму «крайніх» спостережень;
