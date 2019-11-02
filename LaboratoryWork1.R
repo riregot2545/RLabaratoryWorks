@@ -37,9 +37,14 @@ avgValue<-function(values){
 }
 
 #Миша	медіану; 
-meanValue<-function(values){
-  #TODO
-  return(median(values))
+meanValue<-function(x){
+  x <- sort(unlist(x, use.names = FALSE))
+  if(length(x) %% 2 == 0) {
+    m <- (x[length(x)/2] + x[length(x)/2 + 1])/2
+  }else {
+    m <- x[(length(x)+1)/2]
+  }
+  return(m)
 }
 
 #Дима	напівсуму «крайніх» спостережень;
@@ -54,8 +59,12 @@ avgSqr<-function(values){
 }
 
 #Миша	середній модуль відхилень; 
-avgMod<-function(values){
-  #TODO
+avgMod<-function(x){
+  x <- unlist(x, use.names = FALSE)
+  m <- meanValue(x)
+  s <- sum(Mod(x - m))
+  aM <- s / length(x)
+  return(aM)
 }
 
 #Дима	розмах;
@@ -70,8 +79,12 @@ dispersion<-function(values){
 }
 
 #Миша	рекурентні співвідношення середнього значення;
-recurentAvg<-function(values){
-  #TODO
+recurentAvg<-function(x){
+  x <- unlist(x, use.names = FALSE)
+  newX <- vector(length = length(x))
+  newX[1] <- x[1]
+  for(k in 2:length(x)) newX[k] <- newX[k-1] + (1/k)*(x[k] - newX[k-1])
+  return(newX)
 }
 
 #Дима рекурентні співвідношення медіани;
@@ -96,8 +109,11 @@ maxMin<-function(values){
 }
 
 #Миша	провести нормування та центрування; 
-normCenter<-function(values){
-  #TODO
+normCenter<-function(x){
+  Xsr <- avgValue(x)
+  s <- avgSqr(x)
+  newX <- (x - Xsr) / s
+  return(newX)
 }
 
 #Дима	кодування на гіперкулю;
