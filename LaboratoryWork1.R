@@ -59,8 +59,12 @@ avgSqr<-function(values){
 }
 
 #Миша	середній модуль відхилень; 
-avgMod<-function(values){
-  #TODO
+avgMod<-function(x){
+  x <- unlist(x, use.names = FALSE)
+  m <- meanValue(x)
+  s <- sum(Mod(x - m))
+  aM <- s / length(x)
+  return(aM)
 }
 
 #Дима	розмах;
