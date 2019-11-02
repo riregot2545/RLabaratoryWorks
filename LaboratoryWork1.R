@@ -99,8 +99,11 @@ maxMin<-function(values){
 }
 
 #Миша	провести нормування та центрування; 
-normCenter<-function(values){
-  #TODO
+normCenter<-function(x){
+  Xsr <- avgValue(x)
+  s <- avgSqr(x)
+  newX <- (x - Xsr) / s
+  return(newX)
 }
 
 #Дима	кодування на гіперкулю;
