@@ -79,8 +79,12 @@ dispersion<-function(values){
 }
 
 #Миша	рекурентні співвідношення середнього значення;
-recurentAvg<-function(values){
-  #TODO
+recurentAvg<-function(x){
+  x <- unlist(x, use.names = FALSE)
+  newX <- vector(length = length(x))
+  newX[1] <- x[1]
+  for(k in 2:length(x)) newX[k] <- newX[k-1] + (1/k)*(x[k] - newX[k-1])
+  return(newX)
 }
 
 #Дима рекурентні співвідношення медіани;
