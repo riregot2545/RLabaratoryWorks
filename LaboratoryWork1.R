@@ -49,7 +49,7 @@ meanValue<-function(x){
 
 #Дима	напівсуму «крайніх» спостережень;
 halfSumEdges<-function(values){
-  #TODO
+  return(sum(range(values))/2)
 }
 
 #Саша	середнє квадратичне відхилення від середнього; 
@@ -69,7 +69,8 @@ avgMod<-function(x){
 
 #Дима	розмах;
 dataRange<-function(values){
-  #Todo
+  numPair<-range(values)
+  return(numPair[2]-numPair[1])
 }
 
 #Саша	дисперсію; 
@@ -89,7 +90,11 @@ recurentAvg<-function(x){
 
 #Дима рекурентні співвідношення медіани;
 recurentMediana<-function(values){
-  #TODO
+  rMedValue<-values[1]
+  for (k in 2:length(values)) {
+    rMedValue<-rMedValue + (1/k)*(sign(values[k]-rMedValue))
+  }
+  return(rMedValue)
 }
 
 #Саша	максимальне та мінімальне значення;
@@ -118,7 +123,11 @@ normCenter<-function(x){
 
 #Дима	кодування на гіперкулю;
 codingSphere<-function(values){
-  #TODO
+  maxMinValues<-maxMin(values)
+  return(sapply(values, cdShapeFunc, maxValue=maxMinValues[1],minValue=maxMinValues[2]))
+}
+cdShapeFunc<-function(x,minValue,maxValue){
+  return((x-minValue)/(maxValue-minValue))
 }
 
 #Саша	кодування на гіперкуб.
