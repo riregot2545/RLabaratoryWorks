@@ -73,7 +73,7 @@ SearchKoeff <- function(matri ,dataSet, indexY){
     elementY <- dataSet[k+1, indexY]
     vector1x4 <- vector1x4 + (rowi*elementY)
   }
-  resultMatri <- revMatri4x4 %*% vecto0r1x4
+  resultMatri <- revMatri4x4 %*% vector1x4
   return(resultMatri)
 }
 
