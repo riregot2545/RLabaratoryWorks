@@ -87,10 +87,17 @@ main<-function(){
   matrix4 <- createMatrixVar4(dataSet)
   matrix5 <- createMatrixVar5(dataSet)
   matrix6 <- createMatrixVar6(dataSet)
-  result1 <- SearchKoeff(matrix1,dataSet,4)
-  result2 <- SearchKoeff(matrix2,dataSet,2)
-  result3 <- SearchKoeff(matrix3,dataSet,5)
-  result4 <- SearchKoeff(matrix4,dataSet,3)
-  result5 <- SearchKoeff(matrix5,dataSet,4)
-  result6 <- SearchKoeff(matrix6,dataSet,3)
+  print("Решение коефициентов регрессии:")
+  print(paste("Вариант 1: ",
+              paste(unlist(SearchKoeff(matrix1,dataSet,4),use.names = F),collapse = " ")))
+  print(paste("Вариант 2: ",
+              paste(unlist(SearchKoeff(matrix2,dataSet,2),use.names = F),collapse = " ")))
+  print(paste("Вариант 3: ",
+              paste(unlist(SearchKoeff(matrix3,dataSet,5),use.names = F),collapse = " ")))
+  print(paste("Вариант 4: ",
+              paste(unlist(SearchKoeff(matrix4,dataSet,3),use.names = F),collapse = " ")))
+  print(paste("Вариант 5: ",
+              paste(unlist(SearchKoeff(matrix5,dataSet,4),use.names = F),collapse = " ")))
+  print(paste("Вариант 6: ",
+              paste(unlist(SearchKoeff(matrix6,dataSet,3),use.names = F),collapse = " ")))
 }
