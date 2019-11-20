@@ -80,4 +80,24 @@ main <- function(){
   centroids <- makeCentroids()
   distCentroids <- calcDistance(irisSet3, centroids)
   recalcedCentroids <- recalcCentroids(irisSet3, distCentroids)
+  centoidsDelta<-norm((centroids-recalcedCentroids),type="2")^2
+  while(centoidsDelta>0.03){
+    centroids<-recalcedCentroids
+    distCentroids <- calcDistance(irisSet3, centroids)
+    recalcedCentroids <- recalcCentroids(irisSet3, distCentroids)
+    centoidsDelta<-norm((centroids-recalcedCentroids),type="2")^2
+  }
+  centroids<-recalcedCentroids
+  classesFiltered<-list("class 1"=matrix(ncol=5),"class 2"=matrix(ncol=5),"class 3"= matrix(ncol=5))
+  
+  for(k in 1:nrow(irisSet3)){
+    classIndex <- which.min(distCentroids[k,])
+    classesFiltered[[classIndex]] <-rbind(classesFiltered[[classIndex]],c(distCentroids[k,classIndex],unlist(irisSet3[k,],use.names = F)) )
+  }
+  classesFiltered[[1]]<-classesFiltered[[1]][-1:0,]
+  classesFiltered[[2]]<-classesFiltered[[2]][-1:0,]
+  classesFiltered[[3]]<-classesFiltered[[3]][-1:0,]
+  View(centroids)
+  View(distCentroids)
+  View(classesFiltered)
 }
