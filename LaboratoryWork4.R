@@ -5,6 +5,7 @@ init<-function(){
   irisSet["class"] <<- NULL
 }
 
+#кодирование выборки
 codingCube <- function(values){
   for(l in 1:ncol(values)){
     minValue <- min(values[,l])
@@ -16,12 +17,14 @@ codingCube <- function(values){
   return(values)
 }
 
+#перемешивание выборки
 mixSet <- function(values){
   mixedSet <- values[sample(nrow(values)),]
   row.names(mixedSet) <- seq(length = nrow(mixedSet))
   return(mixedSet)
 }
 
+#генерация центроида
 makeCentroids <- function(){
   centroid1 <- runif(4, min = -1, max = 1)
   centroid2 <- runif(4, min = -1, max = 1)
@@ -30,6 +33,7 @@ makeCentroids <- function(){
   return(centroids)
 }
 
+#вычисление расстояния
 calcDistance <- function(values, centroids){
   result <- matrix(nrow = nrow(values), ncol = ncol(centroids))
   for(l in 1:ncol(centroids)){
@@ -45,6 +49,7 @@ calcDistance <- function(values, centroids){
   return(result)
 }
 
+#поиск минимальной дистанции
 searchMinDist <- function(values){
   listMin <- which.min(unlist(values[1,],use.names = FALSE))
   for(k in 2:nrow(values)){
@@ -53,6 +58,7 @@ searchMinDist <- function(values){
   return(listMin)
 }
 
+#перерасчёт центроидов
 recalcCentroids <- function(dataSet, distSet){
   listMin <- searchMinDist(distSet)
   recalcedCentroids <- matrix(0, nrow = 4, ncol = 3)
