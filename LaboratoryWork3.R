@@ -34,8 +34,18 @@ etapOne <- function(values){
 }
 
 etapTwo <- function(values){
+  
+}
+
+#ÂÍÈÌÀÍÈÅ!!! íå çàâåðøåíî
+calcComponent <- function(values){
   w <- runif(ncol(values), min = -1, max = 1)
   w <- w/normVector(w)
+  y0 <- t(w) %*% unlist(wineSet[1, 2:14], use.names = FALSE)
+  w <- w + (1/nrow(values))*y0
+  for(k in 2:nrow(values)){
+    w <- w + (1/nrow(values))*y0
+  }
 }
 
 normVector <- function(values){
