@@ -1,7 +1,8 @@
-wineSet<-0
+irisSet<-0
 init <- function(){
-  wineSet<<-read.csv("wine.data")
-  names(wineSet)<<- c("Type","Alcoholh","Malic_acid","Ash","Alcalinity_of_ash","Magnesium","Total_phenols","Flavanoids","Nonflavanoid_phenols","Proanthocyanins","Color_intensity","Hue","OD280_OD315_of_diluted_wines","Proline")
+  irisSet<<-read.csv("iris.data")
+  names(irisSet)<<- c("sepal length in cm", "sepal width in cm", "petal length in cm", "petal width in cm", "class")
+  irisSet["class"] <<- NULL
 }
 
 codingCube <- function(values){
@@ -26,26 +27,11 @@ centering <- function(values){
 }
 
 etapOne <- function(values){
-  for(k in 2:ncol(values)){
+  for(k in 1:ncol(values)){
     values[,k] <- codingCube(values[,k])
     values[,k] <- centering(values[,k])
   }
   return(values)
-}
-
-etapTwo <- function(values){
-  
-}
-
-#ÂÍÈÌÀÍÈÅ!!! íå çàâåðøåíî
-calcComponent <- function(values){
-  w <- runif(ncol(values), min = -1, max = 1)
-  w <- w/normVector(w)
-  y0 <- t(w) %*% unlist(wineSet[1, 2:14], use.names = FALSE)
-  w <- w + (1/nrow(values))*y0
-  for(k in 2:nrow(values)){
-    w <- w + (1/nrow(values))*y0
-  }
 }
 
 normVector <- function(values){
@@ -54,4 +40,32 @@ normVector <- function(values){
     summa <- summa + values[k]**2
   }
   return(sqrt(summa))
+}
+
+etapTwo <- function(values){
+  w0 <- runif(ncol(values), min = -1, max = 1)
+  w0 <- w0/normVector(w0)
+  matrixW <<- matrix(w0, nrow = ncol(values), ncol = ncol(values))
+  matrixY <<- matrix(nrow = nrow(values), ncol = ncol(values))
+  for(k in 1:ncol(values)){
+    for(i in 1:10**k){
+      for(j in 1:nrow(values)){
+        matrixY[j,k] <<- matrixW[,k] %*% unlist(values[j,], use.names = FALSE)
+        matrixW[,k] <<- matrixW[,k] + (1/nrow(values)) * matrixY[j,k] * (unlist(values[j,], use.names = FALSE) - matrixY[j,k] * matrixW[,k])
+        matrixW[,k] <<- matrixW[,k]/normVector(matrixW[,k])
+      }
+      values <- values - matrixY[,k] %*% t(matrixW[,k])
+    }
+  }
+  return(values)
+}
+
+etapThree <- function(values){
+  matrixX <- matrix(0, nrow = nrow(values), ncol = ncol(values))
+  for(j in 1:nrow(values)){
+    for(k in 1:ncol(values)){
+      matrixX[j,] <- matrixX[j,] + matrixW[,k] * matrixY[j,k]
+    }
+  }
+  return(matrixX)
 }
