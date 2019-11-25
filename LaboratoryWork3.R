@@ -48,14 +48,16 @@ etapTwo <- function(values){
   matrixW <<- matrix(w0, nrow = ncol(values), ncol = ncol(values))
   matrixY <<- matrix(nrow = nrow(values), ncol = ncol(values))
   for(k in 1:ncol(values)){
+    matrixX <- matrix(nrow = nrow(values), ncol = ncol(values))
     for(i in 1:10**k){
       for(j in 1:nrow(values)){
         matrixY[j,k] <<- matrixW[,k] %*% unlist(values[j,], use.names = FALSE)
         matrixW[,k] <<- matrixW[,k] + (1/nrow(values)) * matrixY[j,k] * (unlist(values[j,], use.names = FALSE) - matrixY[j,k] * matrixW[,k])
         matrixW[,k] <<- matrixW[,k]/normVector(matrixW[,k])
       }
-      values <- values - matrixY[,k] %*% t(matrixW[,k])
+      matrixX <- matrixY[,k] %*% t(matrixW[,k])
     }
+    values <- values - matrixX
   }
   return(values)
 }
