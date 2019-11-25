@@ -45,6 +45,7 @@ normVector <- function(values){
 etapTwo <- function(values){
   w0 <- runif(ncol(values), min = -1, max = 1)
   w0 <- w0/normVector(w0)
+  matrixResult <- values
   matrixW <<- matrix(w0, nrow = ncol(values), ncol = ncol(values))
   matrixY <<- matrix(nrow = nrow(values), ncol = ncol(values))
   for(k in 1:ncol(values)){
@@ -57,9 +58,9 @@ etapTwo <- function(values){
       }
       matrixX <- matrixY[,k] %*% t(matrixW[,k])
     }
-    values <- values - matrixX
+    matrixResult <- matrixResult - matrixX
   }
-  return(values)
+  return(matrixResult)
 }
 
 etapThree <- function(values){
